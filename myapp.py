@@ -1,31 +1,43 @@
+
+
+
 import yfinance as yf
 import streamlit as st
+import seaborn as sns
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
 
 
-def main():
-    page = st.sidebar.selectbox(
-        "Select a Page",
-        [
-            "Homepage"
-        ]
-    )
+sns.set_style("whitegrid")
 
-    if page == "Homepage":
-        homepage()
+df = sns.load_dataset('iris')
 
-def homepage():
-    st.write("""
-        # Simple Stock Price App
-        ### Shown are the stock **closing price** and **volume** of _**Tesla !**_ ###
-        #""")
-    
-    tickerSymbol = 'TSLA'
-    tickerData = yf.Ticker(tickerSymbol)
-    tickerDf = tickerData.history(period='id', start='2010-5-31', end='2021-5-31')
 
-    st.line_chart(tickerDf.Close)
+"""
+## DataFrames Structure
+"""
+st.dataframe(df.head())
 
-if __name__ == "__main__":
-    main()
+"""
+## Tables
+"""
+st.table(df.head())
+
+
+"""
+## Scatter with Seaborn
+"""
+fig = sns.FacetGrid(df, hue ="species",
+              height = 6).map(plt.scatter,
+                              'sepal_length',
+                              'petal_length').add_legend()
+
+# fig, ax = plt.subplots()
+# ax.scatter(df.loc[0:10, ['Sepal_Length', 'Petal_Length']])
+st.pyplot(fig)
+
+
+"""
+## Congratulations for reaching this end!
+"""
+st.balloons()
