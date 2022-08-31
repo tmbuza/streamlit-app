@@ -1,13 +1,31 @@
+import yfinance as yf
 import streamlit as st
-!pip install mymodel
-import mymodel as m
+import matplotlib.pyplot as plt
+from matplotlib.pyplot import figure
 
-st.write("""
-  # Simple Sales Model
-  This is just a test for some of the amazing things done by stremlit.
-  """)
 
-st.write(m.run(window = 15))
+def main():
+    page = st.sidebar.selectbox(
+        "Select a Page",
+        [
+            "Homepage"
+        ]
+    )
 
-window = st.slider("Forecast window (days)")
-st.write(m.run(window = window))
+    if page == "Homepage":
+        homepage()
+
+def homepage():
+    st.write("""
+        # Simple Stock Price App
+        ### Shown are the stock **closing price** and **volume** of _**Tesla !**_ ###
+        #""")
+    
+    tickerSymbol = 'TSLA'
+    tickerData = yf.Ticker(tickerSymbol)
+    tickerDf = tickerData.history(period='id', start='2010-5-31', end='2021-5-31')
+
+    st.line_chart(tickerDf.Close)
+
+if __name__ == "__main__":
+    main()
