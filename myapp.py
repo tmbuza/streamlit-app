@@ -1,4 +1,5 @@
 import streamlit as st
+!pip install mymodel
 import mymodel as m
 
 st.write("""
